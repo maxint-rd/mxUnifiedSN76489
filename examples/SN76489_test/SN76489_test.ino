@@ -8,7 +8,8 @@
 //    https://github.com/maxint-rd/mxUnifiedSN76489
 //
 //
-#include <mxUnified74HC595.h>
+//#include <mxUnified74HC595.h>   // use the 74HC595 shift-register
+#include <mxUnifiedPCF8574.h>    // Use the PCF8574/8575 I/O-expander
 #include <mxUnifiedSN76489.h>
 
 #if defined(MXUNIFIED_ATTINY)
@@ -32,12 +33,17 @@
 //mxUnified74HC595 unio = mxUnified74HC595();                  // use hardware SPI pins, no cascading
 //mxUnified74HC595 unio = mxUnified74HC595(2);               // use hardware SPI pins, two cascaded shift-registers (slightly slower, but more pins)
 //mxUnified74HC595 unio = mxUnified74HC595(10, 11, 13);      // alternative software SPI pins: SS, MOSI, SCLK, no cascading (slow, but pin-freedom)
+//mxUnified74HC595 unio = mxUnified74HC595(10, 11, 13, 2);   // alternative software SPI pins: SS, MOSI, SCLK, two  cascaded shift-registers (even slower, but pin-freedom)
 //mxUnified74HC595 unio = mxUnified74HC595(3, 2, 0);      // alternative software SPI pins for ESP-01: SS, MOSI, SCLK, no cascading (slow, but pin-freedom)
-//mxUnified74HC595 unio = mxUnified74HC595(10, 11, 13, 3);   // alternative software SPI pins: SS, MOSI, SCLK, three cascaded shift-registers (slow, but pin-freedom)
-mxUnified74HC595 unio = mxUnified74HC595(0, 1, 2);      // alternative software SPI pins for Attiny85: SS, MOSI, SCLK, no cascading (slow, but pin-freedom)
+//mxUnified74HC595 unio = mxUnified74HC595(0, 1, 2);      // alternative software SPI pins for Attiny85: SS, MOSI, SCLK, no cascading (slow, but pin-freedom)
+
+// Use the PCF8574/8575 I/O-expander
+mxUnifiedPCF8575 unio = mxUnifiedPCF8575(0x20);     // use the PCF875 I2C output expander on address 0x20
+//  Hardware I2C on ESP8266/D1-mini: SCL=GPIO5/D1, SDA=GPIO4/D2
 
 // define the pin used and initialize the mxUnifiedSN76489 object
-mxUnifiedSN76489 sound(&unio,4);    // use MCU pin 4 for NotWE
+mxUnifiedSN76489 sound(&unio);    // use expanded pin 0-7 for data, expanded pin 8 for NotWE
+//mxUnifiedSN76489 sound(&unio,4);    // use MCU pin 4 for NotWE (eg when using only 8-bit expander)
 
 void setup()
 {
@@ -45,8 +51,9 @@ void setup()
   Serial.print(F("mxUnifiedSN76489 SN76489_test"));
 
   // initialize the sound chip
-  unio.setBitOrder(LSBFIRST);   // reverse connections (could also be done by changing wires)
-  unio.begin();     // start using the mxUnified74HC595 I2C shift register
+  //  unio.setBitOrder(LSBFIRST);   // reverse connections on 74HC595 (could also be done by changing wires)
+  unio.begin();     // start using the mxUnified74HC595/I2C expander
+  //  unio.begin(1000000L);      // for I2C one can specify fast I2C or when experiencing noise, try slower I2C. Pullups may help too.
   sound.begin();    // will call SilenceAllChannels();
 
   // sound a beep
