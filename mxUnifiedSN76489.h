@@ -42,7 +42,7 @@ class mxUnifiedSN76489
 	void tone(float ftFrequency, uint8_t nVolume=0, uint8_t nChannel=0);		// A4=440Hz, standard tuning, volume 0-15, 15 for silence
 	void volume(uint8_t nVolume, uint8_t nChannel=0);	// set the volume on the specified channel. Use nVolume=15 to stop playing the tone
   void noTone(uint8_t nChannel=0);	// kill sound on specified channel
- 	void beep(void);									// simple beep sound
+ 	void beep(uint16_t nDuration=100);									// simple beep sound
  	void stop();											// stop sound on all channels
 
 #if(OPT_SN7648_NOTE)

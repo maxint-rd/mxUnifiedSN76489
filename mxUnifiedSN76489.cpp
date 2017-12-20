@@ -39,13 +39,13 @@ void mxUnifiedSN76489::begin(void)
 }
 
 
-void mxUnifiedSN76489::beep(void)
+void mxUnifiedSN76489::beep(uint16_t nDuration)
 {
 #if(OPT_SN7648_NOTE)
-	note(50,10);
+	note(50,nDuration/15);
 #else
 	tone(440.0f);
-	delay(100);
+	delay(nDuration);
 	noTone();
 #endif
 }
