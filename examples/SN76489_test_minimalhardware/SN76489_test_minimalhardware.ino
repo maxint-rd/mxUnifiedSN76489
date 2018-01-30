@@ -7,7 +7,7 @@
 // For more information and used libraries see
 //    https://github.com/maxint-rd/mxUnifiedIO
 //    https://github.com/maxint-rd/mxUnifiedSN76489
-//    https://github.com/maxint-rd/FaatPwmPin
+//    https://github.com/maxint-rd/FastPwmPin
 //
 // This example was tested on an Arduino Pro Mini ATmega168 running at 8MHz/3v3,
 // using the following connections:
@@ -26,7 +26,7 @@
 // use the mxUnifiedIO API without expander (in Setup() Arduino pins 2-9 will be declared as virtual pins P0-P7)
 mxUnifiedIO unio = mxUnifiedIO();
 
-// define the WE pin used and initialize the mxUnifiedSN76489 object
+// define the /WE pin used and initialize the mxUnifiedSN76489 object
 mxUnifiedSN76489 sound(&unio, 10);    // use MCU pin 10 for NotWE (in addtion to using an 8-pin virtual expander)
 
 void setup()
