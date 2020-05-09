@@ -1,4 +1,4 @@
-# mxUnifiedSN7648
+# mxUnifiedSN76489
 mxUnifiedIO device library for Arduino. Device specific driver for the SN76489 sound chip. Use SPI shift registers or I2C I/O expanders via the [mxUnifiedIO](https://github.com/maxint-rd/mxUnifiedIO) API.
 
 ## Introduction
